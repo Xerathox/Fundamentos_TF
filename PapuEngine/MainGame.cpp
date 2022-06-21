@@ -93,7 +93,14 @@ void MainGame::draw() {
 	{
 		//poner en consola que si se esta dibujando
 		_weapon->draw(_spriteBacth, _player->getPosition().x, _player->getPosition().y);
+		//agregar funcion de hallar_colision
+			//poner el if
+				//si he colisionado, delete al zombie
 		_player->drawWeapon = false;
+	}
+	else
+	{
+		_weapon->reset();
 	}
 	for (size_t i = 0; i < _humans.size(); i++)
 	{
@@ -175,6 +182,7 @@ void MainGame::update() {
 		_time += 0.02f;
 		updateAgents();
 		_camera.setPosition(_player->getPosition());
+		//cout << "Zombies: " << _zombies.size() << endl;
 	}
 }
 
@@ -190,14 +198,23 @@ void MainGame::updateAgents() {
 	{
 		_zombies[i]->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies);
 
-		for (size_t j = 0; j < _humans.size(); j++)
+		if (_zombies[i]->collideWithWeapon(_weapon->pos_x, _weapon->pos_y, _weapon->height, _weapon->width))
 		{
-			if (_zombies[i]->collideWithAgent(_humans[j])) {
-				_zombies.push_back(new Zombie());
-				_zombies.back()->init(1.3f, _humans[j]->getPosition());
-				delete _humans[j];
-				_humans[j] = _humans.back();
-				_humans.pop_back();
+			delete _zombies[i];
+			_zombies[i] = _zombies.back();
+			_zombies.pop_back();
+		}
+		else
+		{
+			for (size_t j = 0; j < _humans.size(); j++)
+			{
+				if (_zombies[i]->collideWithAgent(_humans[j])) {
+					_zombies.push_back(new Zombie());
+					_zombies.back()->init(1.3f, _humans[j]->getPosition());
+					delete _humans[j];
+					_humans[j] = _humans.back();
+					_humans.pop_back();
+				}
 			}
 		}
 	}

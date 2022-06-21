@@ -1,6 +1,7 @@
 #pragma once
 #include "Agent.h"
 #include "Human.h"
+#include "Weapon.h"
 class Zombie :public Agent
 {
 public:
@@ -15,5 +16,8 @@ public:
 		);
 
 	Human* getNearestHuman(std::vector<Human*>& humans);
+
+	bool collideWithWeapon(int pos_x, int pos_y, int height, int width);
+	bool rectRect(float r1x, float r1y, float r1w, float r1h, float r2x, float r2y, float r2w, float r2h);
 };
 

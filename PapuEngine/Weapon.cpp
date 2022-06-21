@@ -6,6 +6,8 @@
 Weapon::Weapon(){
 	default_HEIGHT = 60.0f;
 	default_WIDTH = 180.0f;
+	pos_x = .0f;
+	pos_y = .0f;
 	direccion = Direction::RIGHT;
 }
 
@@ -13,11 +15,19 @@ Weapon::~Weapon()
 {
 }
 
+void Weapon::reset() {
+	default_HEIGHT = 60.0f;
+	default_WIDTH = 180.0f;
+	pos_x = .0f;
+	pos_y = .0f;
+	direccion = Direction::RIGHT;
+}
+
 void Weapon::draw(SpriteBacth& spritebatch, int x, int y){
-	int height = get_default_HEIGHT();
-	int width = get_default_WIDTH();
-	int pos_x = get_pos_x(x, width);
-	int pos_y = get_pos_y(y, height);
+	height = get_default_HEIGHT();
+	width = get_default_WIDTH();
+	pos_x = get_pos_x(x, width);
+	pos_y = get_pos_y(y, height);
 	Color color{};
 	color.set(255, 255, 255, 255);
 

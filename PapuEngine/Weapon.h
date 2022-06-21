@@ -14,10 +14,15 @@ protected:
 	int default_WIDTH;
 	
 public:
+	int pos_x;
+	int pos_y;
+	int width;
+	int height;
 	Direction direccion;
 	Weapon();
 	~Weapon();
 	void draw(SpriteBacth& spritebatch, int x, int y);
+	void reset();
 	int get_default_HEIGHT();
 	int get_default_WIDTH();
 	int get_pos_x(int x, int width);
