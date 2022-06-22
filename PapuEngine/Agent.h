@@ -28,7 +28,7 @@ public:
 		std::vector<Human*> &humans,
 		std::vector<Zombie*>& zombies
 		) = 0;
-	void draw(SpriteBacth& spritebatch);
+	void draw(SpriteBacth& spritebatch, std::string name_texture);
 	bool collideWithLevel(const std::vector<std::string>& levelData);
 	virtual ~Agent();
 	bool collideWithAgent(Agent* agent);

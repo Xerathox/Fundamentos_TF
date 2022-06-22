@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL\SDL.h>
+#include <SDL\SDL_mixer.h>
 #include <GL\glew.h>
 #include "GLS_Program.h"
 #include "Window.h"
@@ -12,7 +13,7 @@
 #include "Weapon.h"
 #include "Human.h"
 #include "Zombie.h"
-
+#include "Sound.h"
 enum class GameState
 {
 	PLAY, EXIT
@@ -22,6 +23,8 @@ enum class GameState
 class MainGame
 {
 private:
+
+
 	int _witdh;
 	int _height;
 	float _time;
@@ -37,6 +40,7 @@ private:
 	vector<Zombie*> _zombies;
 	Player* _player;
 	Weapon* _weapon;
+	Music _sound;
 	int _currenLevel;
 	void initLevel();
 	void updateAgents();

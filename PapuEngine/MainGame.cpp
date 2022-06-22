@@ -23,6 +23,9 @@ void MainGame::init() {
 
 void MainGame::initLevel() {
 	_levels.push_back(new Level("Levels/level1.txt"));
+	_sound.addSoundEffect("Music/you_suck2.wav");
+
+
 	_player = new Player();
 	_weapon = new Weapon();
 	_currenLevel = 0;
@@ -52,6 +55,8 @@ void MainGame::initLevel() {
 		_zombies.push_back(new Zombie());
 		_zombies.back()->init(1.3f, zombiePosition[i]);
 	}
+	
+	_sound.SDL2SoundEffect(0);
 }
 
 void MainGame::initShaders() {
@@ -88,7 +93,7 @@ void MainGame::draw() {
 
 	_spriteBacth.begin();
 	_levels[_currenLevel]->draw();
-	_player->draw(_spriteBacth);
+	_player->draw(_spriteBacth, "Textures/player.png");
 	if (_player->drawWeapon)
 	{
 		//poner en consola que si se esta dibujando
@@ -104,12 +109,12 @@ void MainGame::draw() {
 	}
 	for (size_t i = 0; i < _humans.size(); i++)
 	{
-		_humans[i]->draw(_spriteBacth);
+		_humans[i]->draw(_spriteBacth, "Textures/human.png");
 	}
 
 	for (size_t i = 0; i < _zombies.size(); i++)
 	{
-		_zombies[i]->draw(_spriteBacth);
+		_zombies[i]->draw(_spriteBacth, "Textures/zombie.png");
 	}
 
 	_spriteBacth.end();
@@ -182,7 +187,7 @@ void MainGame::update() {
 		_time += 0.02f;
 		updateAgents();
 		_camera.setPosition(_player->getPosition());
-		//cout << "Zombies: " << _zombies.size() << endl;
+		cout << "Zombies: " << _zombies.size() << endl;
 	}
 }
 

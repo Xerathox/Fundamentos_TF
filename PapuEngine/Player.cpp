@@ -7,7 +7,7 @@ void Player::init(float speed, glm::vec2 position, InputManager* inputManager, W
 	_position = position;
 	_inputManager = inputManager;
 	_weapon = weapon;
-	color.set(0, 0, 185, 255);
+	color.set(255, 255, 255, 255);
 }
 void Player::update(const std::vector<std::string>& levelData, 
 	std::vector<Human*>& humans,
