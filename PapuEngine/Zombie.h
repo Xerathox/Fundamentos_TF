@@ -2,6 +2,8 @@
 #include "Agent.h"
 #include "Human.h"
 #include "Weapon.h"
+
+
 class Zombie :public Agent
 {
 public:
@@ -12,7 +14,8 @@ public:
 
 	void update(const std::vector<std::string>& levelData,
 		std::vector<Human*>& humans,
-		std::vector<Zombie*>& zombies
+		std::vector<Zombie*>& zombies,
+		glm::vec2 player_position
 		);
 
 	Human* getNearestHuman(std::vector<Human*>& humans);

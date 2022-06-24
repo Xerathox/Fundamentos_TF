@@ -16,6 +16,14 @@ bool InputManager::isKeyPressed(unsigned int keyCode) {
 	return false;
 }
 
+bool InputManager::isKeyDown(unsigned int keyCode) {
+	auto it = _keyMap.find(keyCode);
+	if (it != _keyMap.end()) {
+		return it->second;
+	}
+	return false;
+}
+
 void InputManager::setMouseCoords(float x, float y) {
 	_mouseCoords.x = x;
 	_mouseCoords.y = y;

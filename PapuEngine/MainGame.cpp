@@ -22,14 +22,27 @@ void MainGame::init() {
 }
 
 void MainGame::initLevel() {
+	//NIVELES
 	_levels.push_back(new Level("Levels/level1.txt"));
-	_sound.addSoundEffect("Music/you_suck2.wav");
+
+	//AUDIOS
+	
+	//arma
+	_sound.addSoundEffect("Music/Kamehameha.wav");
+
+	//niveles
+	_sound.addSoundEffect("Music/TOTTFIY.wav");
+	_sound.addSoundEffect("Music/BFG Division.wav");
+	_sound.addSoundEffect("Music/Hell_on_Earth.wav");
+	_sound.addSoundEffect("Music/Rip_&_Tear.wav");
+	
+	
 
 
 	_player = new Player();
 	_weapon = new Weapon();
 	_currenLevel = 0;
-	_player->init(3.5f, _levels[_currenLevel]->getPlayerPosition(), &_inputManager, _weapon);
+	_player->init(3.5f, _levels[_currenLevel]->getPlayerPosition(), &_inputManager, &_sound, _weapon);
 	//_humans.push_back(_player);
 	_spriteBacth.init();
 
@@ -55,8 +68,10 @@ void MainGame::initLevel() {
 		_zombies.push_back(new Zombie());
 		_zombies.back()->init(1.3f, zombiePosition[i]);
 	}
-	
-	_sound.SDL2SoundEffect(0);
+
+	//_sound.SDL2SoundEffect(2);
+
+
 }
 
 void MainGame::initShaders() {
@@ -93,15 +108,11 @@ void MainGame::draw() {
 
 	_spriteBacth.begin();
 	_levels[_currenLevel]->draw();
-	_player->draw(_spriteBacth, "Textures/player.png");
+	_player->draw(_spriteBacth, _player->spriteActual);
+
 	if (_player->drawWeapon)
 	{
-		//poner en consola que si se esta dibujando
 		_weapon->draw(_spriteBacth, _player->getPosition().x, _player->getPosition().y);
-		//agregar funcion de hallar_colision
-			//poner el if
-				//si he colisionado, delete al zombie
-		_player->drawWeapon = false;
 	}
 	else
 	{
@@ -139,7 +150,7 @@ void MainGame::procesInput() {
 				break;
 			case SDL_MOUSEMOTION:
 				_inputManager.setMouseCoords(event.motion.x,event.motion.y);
-			break;
+				break;
 			case  SDL_KEYUP:
 				_inputManager.releaseKey(event.key.keysym.sym);
 				break;
@@ -172,36 +183,50 @@ void MainGame::procesInput() {
 		if (_inputManager.isKeyPressed(SDLK_e)) {
 			_camera.setScale(_camera.getScale() - SCALE_SPEED);
 		}
-		if (_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
-			
-		}
 	}
 }
 
 void MainGame::update() {
 
 	while (_gameState != GameState::EXIT) {
+
+		manageMusic();
 		procesInput();
 		draw();
 		_camera.update();
 		_time += 0.02f;
 		updateAgents();
 		_camera.setPosition(_player->getPosition());
-		cout << "Zombies: " << _zombies.size() << endl;
+		//cout << "Zombies: " << _zombies.size() << endl;
 	}
 }
 
+void MainGame::manageMusic()
+{
+	if (_player->drawWeapon)
+	{
+		if (!_player->soundWeapon)
+		{
+			cout << "Playing weapon sound." << endl;
+			_sound.SDL2SoundEffect(0);
+			_player->soundWeapon = true;
+		}
+	}
+}
+
+
+
 void MainGame::updateAgents() {
 
-	_player->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies);
+	_player->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, glm::vec2());
 	for (size_t i = 0; i < _humans.size(); i++)
 	{
-		_humans[i]->update(_levels[_currenLevel]->getLevelData(),_humans,_zombies);
+		_humans[i]->update(_levels[_currenLevel]->getLevelData(),_humans,_zombies, glm::vec2());
 	}
 
 	for (size_t i = 0; i < _zombies.size(); i++)
 	{
-		_zombies[i]->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies);
+		_zombies[i]->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, _player->getPosition());
 
 		if (_zombies[i]->collideWithWeapon(_weapon->pos_x, _weapon->pos_y, _weapon->height, _weapon->width))
 		{

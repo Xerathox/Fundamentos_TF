@@ -14,7 +14,8 @@ void Zombie::init(float speed, glm::vec2 position) {
 
 void Zombie::update(const std::vector<std::string>& levelData,
 	std::vector<Human*>& humans,
-	std::vector<Zombie*>& zombies
+	std::vector<Zombie*>& zombies,
+	glm::vec2 player_position //quitar esto, que ya no lo reciba, hasta el Agent
 	) {
 	collideWithLevel(levelData);
 	Human* closeHuman = getNearestHuman(humans);
@@ -24,6 +25,13 @@ void Zombie::update(const std::vector<std::string>& levelData,
 		);
 		_position += direction * _speed;
 	}
+	//else
+	//{
+	//	glm::vec2 direction = glm::normalize(
+	//		player_position - _position
+	//	);
+	//	_position += direction * _speed;
+	//}
 }
 
 Human* Zombie::getNearestHuman(std::vector<Human*>& humans)

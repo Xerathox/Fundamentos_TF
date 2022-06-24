@@ -35,6 +35,6 @@ void Music::addSoundEffect(const char* path)
 
 void Music::SDL2SoundEffect(int which) const
 {
-	Mix_PlayChannel(-1, vMusic[which], -1);
+	Mix_PlayChannel(-1, vMusic[which], 0);
 }
 

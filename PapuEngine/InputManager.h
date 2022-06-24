@@ -18,5 +18,6 @@ public:
 	void pressKey(unsigned int keyCode);
 	void releaseKey(unsigned int keyCode);
 	bool isKeyPressed(unsigned int keyCode);
+	bool isKeyDown(unsigned int keyCode);
 };
 

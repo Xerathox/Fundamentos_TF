@@ -25,8 +25,9 @@ public:
 	Agent();
 	glm::vec2 getPosition()const { return _position; };
 	virtual void update(const std::vector<std::string>& levelData,
-		std::vector<Human*> &humans,
-		std::vector<Zombie*>& zombies
+		std::vector<Human*>& humans,
+		std::vector<Zombie*>& zombies,
+		glm::vec2 player_position
 		) = 0;
 	void draw(SpriteBacth& spritebatch, std::string name_texture);
 	bool collideWithLevel(const std::vector<std::string>& levelData);
