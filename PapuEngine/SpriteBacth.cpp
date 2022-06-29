@@ -12,13 +12,14 @@ void SpriteBacth::init() {
 void SpriteBacth::begin(GlyphSortType sortType) {
 	_sortType = sortType;
 	_renderBacthes.clear();
-	for (int i = 0; i < _glyphs.size(); i++)
-	{
-		delete _glyphs[i];
-	}
 	_glyphs.clear();
 }
 void SpriteBacth::end() {
+	_glyphsPointers.resize(_glyphs.size());
+	for (size_t i = 0; i < _glyphs.size(); i++)
+	{
+		_glyphsPointers[i] = &_glyphs[i];
+	}
 	sortGlyph();
 	createRenderBatches();
 }
@@ -31,31 +32,31 @@ void SpriteBacth::createRenderBatches() {
 	}
 	int cv = 0;
 	int ofset = 0;
-	_renderBacthes.emplace_back(ofset, 6, _glyphs[0]->texture);
-	vertices[cv++] = _glyphs[0]->topLeft;
-	vertices[cv++] = _glyphs[0]->bottomLeft;
-	vertices[cv++] = _glyphs[0]->bottomRight;
-	vertices[cv++] = _glyphs[0]->bottomRight;
-	vertices[cv++] = _glyphs[0]->topRight;
-	vertices[cv++] = _glyphs[0]->topLeft;
+	_renderBacthes.emplace_back(ofset, 6, _glyphsPointers[0]->texture);
+	vertices[cv++] = _glyphsPointers[0]->topLeft;
+	vertices[cv++] = _glyphsPointers[0]->bottomLeft;
+	vertices[cv++] = _glyphsPointers[0]->bottomRight;
+	vertices[cv++] = _glyphsPointers[0]->bottomRight;
+	vertices[cv++] = _glyphsPointers[0]->topRight;
+	vertices[cv++] = _glyphsPointers[0]->topLeft;
 	ofset += 6;
 
 	
-	for (int cg = 1; cg < _glyphs.size(); cg++)
+	for (int cg = 1; cg < _glyphsPointers.size(); cg++)
 	{
-		if (_glyphs[cg]->texture != _glyphs[cg-1]->texture) {
-			_renderBacthes.emplace_back(ofset, 6, _glyphs[cg]->texture);
+		if (_glyphsPointers[cg]->texture != _glyphsPointers[cg-1]->texture) {
+			_renderBacthes.emplace_back(ofset, 6, _glyphsPointers[cg]->texture);
 		}
 		else {
 			_renderBacthes.back()._numVertixes += 6;
 		}
 		
-		vertices[cv++] = _glyphs[cg]->topLeft;
-		vertices[cv++] = _glyphs[cg]->bottomLeft;
-		vertices[cv++] = _glyphs[cg]->bottomRight;
-		vertices[cv++] = _glyphs[cg]->bottomRight;
-		vertices[cv++] = _glyphs[cg]->topRight;
-		vertices[cv++] = _glyphs[cg]->topLeft;
+		vertices[cv++] = _glyphsPointers[cg]->topLeft;
+		vertices[cv++] = _glyphsPointers[cg]->bottomLeft;
+		vertices[cv++] = _glyphsPointers[cg]->bottomRight;
+		vertices[cv++] = _glyphsPointers[cg]->bottomRight;
+		vertices[cv++] = _glyphsPointers[cg]->topRight;
+		vertices[cv++] = _glyphsPointers[cg]->topLeft;
 		ofset += 6;
 		
 	}
@@ -78,40 +79,20 @@ void SpriteBacth::renderBatch() {
 }
 
 void SpriteBacth::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color) {
-	Glyph* glyph = new Glyph;
-	glyph->texture = texture;
-	glyph->depth = depth;
-
-	glyph->topLeft.color = color;
-	glyph->topLeft.setPosition(destRect.x, destRect.y + destRect.w);
-	glyph->topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
-
-	glyph->bottomLeft.color = color;
-	glyph->bottomLeft.setPosition(destRect.x, destRect.y);
-	glyph->bottomLeft.setUV(uvRect.x, uvRect.y);
-
-	glyph->bottomRight.color = color;
-	glyph->bottomRight.setPosition(destRect.x + destRect.z, destRect.y);
-	glyph->bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
-
-	glyph->topRight.color = color;
-	glyph->topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
-	glyph->topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
-
-	_glyphs.push_back(glyph);
+	_glyphs.emplace_back(destRect, uvRect, texture, depth, color);
 }
 
 void SpriteBacth::sortGlyph() {
 	switch (_sortType)
 	{
 		case GlyphSortType::BACK_TO_FRONT:
-			std::stable_sort(_glyphs.begin(), _glyphs.end(), compareBackToFront);
+			std::stable_sort(_glyphsPointers.begin(), _glyphsPointers.end(), compareBackToFront);
 			break;
 		case GlyphSortType::FRONT_TO_BACK:
-			std::stable_sort(_glyphs.begin(), _glyphs.end(), compareFrontToBack);
+			std::stable_sort(_glyphsPointers.begin(), _glyphsPointers.end(), compareFrontToBack);
 			break;
 		case GlyphSortType::TEXTURE:
-			std::stable_sort(_glyphs.begin(), _glyphs.end(), compareTexture);
+			std::stable_sort(_glyphsPointers.begin(), _glyphsPointers.end(), compareTexture);
 			break;
 	}
 }

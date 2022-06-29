@@ -1,5 +1,5 @@
 #include "ResourceManager.h"
-#include <string>
+
 
 TextureCache ResourceManager::_textureCache;
 

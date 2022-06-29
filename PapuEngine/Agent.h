@@ -17,8 +17,8 @@ protected:
 	glm::vec2 _position;
 	float _speed;
 	Color color;
-	void checkTilePosition(const std::vector<std::string>& levelData, 
-		std::vector<glm::vec2>& collideTilePosition,float x, float y );
+	void checkTilePosition(const std::vector<std::string>& levelData,
+		std::vector<glm::vec2>& collideTilePosition, float x, float y);
 	void collideWithTile(glm::vec2 tilePos);
 
 public:
@@ -28,7 +28,7 @@ public:
 		std::vector<Human*>& humans,
 		std::vector<Zombie*>& zombies,
 		glm::vec2 player_position
-		) = 0;
+	) = 0;
 	void draw(SpriteBacth& spritebatch, std::string name_texture);
 	bool collideWithLevel(const std::vector<std::string>& levelData);
 	virtual ~Agent();

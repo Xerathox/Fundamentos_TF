@@ -31,7 +31,7 @@ public:
 		return _levelData[0].size();
 	}
 	int getHeight() const {
-		return _levelData.size();
+		return _levelData[0].size();
 	}
 	std::vector<glm::vec2> getZombiesPosition()const {
 		return _zombiesPosition;

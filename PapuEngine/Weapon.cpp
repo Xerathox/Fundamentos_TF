@@ -1,9 +1,9 @@
 #include "Weapon.h"
-#include "MainGame.h"
+//#include "MainGame.h"
 #include "ResourceManager.h"
 #include <iostream>
 
-Weapon::Weapon(){
+Weapon::Weapon() {
 	default_HEIGHT = 60.0f;
 	default_WIDTH = 180.0f;
 	pos_x = .0f;
@@ -23,7 +23,7 @@ void Weapon::reset() {
 	direccion = Direction::RIGHT;
 }
 
-void Weapon::draw(SpriteBacth& spritebatch, int x, int y){
+void Weapon::draw(SpriteBacth& spritebatch, int x, int y) {
 	height = get_default_HEIGHT();
 	width = get_default_WIDTH();
 	pos_x = get_pos_x(x, width);
@@ -37,12 +37,12 @@ void Weapon::draw(SpriteBacth& spritebatch, int x, int y){
 	static int textureID4 = ResourceManager::getTexture("Textures/weapon4.png").id;
 	const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 	glm::vec4 destRect(pos_x, pos_y, height, width);
-	
+
 
 	switch (direccion)
 	{
-	case Direction::UP:	
-		spritebatch.draw(destRect, uvRect, textureID4, 0.0f, color);		
+	case Direction::UP:
+		spritebatch.draw(destRect, uvRect, textureID4, 0.0f, color);
 		break;
 	case Direction::DOWN:
 		spritebatch.draw(destRect, uvRect, textureID2, 0.0f, color);
@@ -58,7 +58,7 @@ void Weapon::draw(SpriteBacth& spritebatch, int x, int y){
 	}
 }
 
-int Weapon::get_default_HEIGHT(){
+int Weapon::get_default_HEIGHT() {
 	if (direccion == Direction::UP || direccion == Direction::DOWN)
 	{
 		return default_HEIGHT;
@@ -66,7 +66,7 @@ int Weapon::get_default_HEIGHT(){
 	return default_WIDTH;
 }
 
-int Weapon::get_default_WIDTH(){
+int Weapon::get_default_WIDTH() {
 	if (direccion == Direction::UP || direccion == Direction::DOWN)
 	{
 		return default_WIDTH;
@@ -85,7 +85,7 @@ int Weapon::get_pos_x(int x, int width)
 		return x;
 		break;
 	case Direction::LEFT:
-		return x - width - (2*AGENT_WIDTH);
+		return x - width - (2 * AGENT_WIDTH);
 		break;
 	case Direction::RIGHT:
 		return x + width;

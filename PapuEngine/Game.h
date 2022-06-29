@@ -3,11 +3,12 @@
 #include "InputManager.h"
 #include <memory>
 
-class IGameScreen;
 class ScreenList;
+class IGameScreen;
 
 class Game
 {
+
 public:
 	Game();
 	virtual ~Game();
@@ -17,6 +18,7 @@ public:
 	virtual void addScreens() = 0;
 	virtual void onExit() = 0;
 	void onSDLEvent(SDL_Event& event);
+
 protected:
 	bool init();
 	void update();
@@ -27,5 +29,6 @@ protected:
 	Window _window;
 	InputManager _inputManager;
 	IGameScreen* _currentScreen = nullptr;
+
 };
 

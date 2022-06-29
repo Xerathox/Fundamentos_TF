@@ -37,9 +37,9 @@ bool Agent::collideWithLevel(const std::vector<std::string>& levelData) {
 
 bool Agent::collideWithAgent(Agent* agent) {
 	glm::vec2 centerPosA = _position +
-								glm::vec2(AGENT_WIDTH / 2);
+		glm::vec2(AGENT_WIDTH / 2);
 	glm::vec2 centerPosB = agent->getPosition() +
-								glm::vec2(AGENT_WIDTH / 2);
+		glm::vec2(AGENT_WIDTH / 2);
 	glm::vec2 dist = centerPosA - centerPosB;
 	const float MIN_DISTANCE = AGENT_RADIUS * 2;
 	float distance = glm::length(dist);

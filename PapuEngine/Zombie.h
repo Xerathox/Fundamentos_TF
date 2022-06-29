@@ -4,7 +4,7 @@
 #include "Weapon.h"
 
 
-class Zombie : public Agent
+class Zombie :public Agent
 {
 public:
 	Zombie();
@@ -16,7 +16,7 @@ public:
 		std::vector<Human*>& humans,
 		std::vector<Zombie*>& zombies,
 		glm::vec2 player_position
-		);
+	);
 
 	Human* getNearestHuman(std::vector<Human*>& humans);
 

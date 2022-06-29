@@ -13,6 +13,9 @@ void Window::swapBuffer() {
 int Window::create(string windowName, int screenWidth, int screenHeight, unsigned int currentFlags) {
 	Uint32 flags = SDL_WINDOW_OPENGL;
 
+	_screenWidth = screenWidth;
+	_screenHeight = screenHeight;
+
 	if (currentFlags & INVISBLE) {
 		flags |= SDL_WINDOW_HIDDEN;
 	}

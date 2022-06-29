@@ -1,4 +1,4 @@
-#include "Sound.h"
+#include "Music.h"
 
 Music::Music()
 {
@@ -10,7 +10,7 @@ Music::Music()
 	int audio_buffers = 4096;
 
 
-	if (Mix_OpenAudio(audio_rate, audio_format, audio_channels,  audio_buffers) != 0 ) {
+	if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) != 0) {
 		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "No se pudo: ", Mix_GetError());
 		exit(-1);
 	}

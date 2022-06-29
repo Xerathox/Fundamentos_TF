@@ -7,11 +7,12 @@
 using namespace std;
 
 
-void Player::init(float speed, glm::vec2 position, InputManager* inputManager, Music* _soundManager, Weapon* weapon) {
+void Player::init(float speed, glm::vec2 position, InputManager* inputManager, Camera2D* camera, Weapon* weapon) {
 	_speed = speed;
 	_position = position;
 	_inputManager = inputManager;
 	_weapon = weapon;
+	_camera = camera;
 	color.set(255, 255, 255, 255);
 	drawWeapon = false;
 	soundWeapon = false;
@@ -43,7 +44,7 @@ void Player::update(const std::vector<std::string>& levelData, std::vector<Human
 
 	collideWithZombies(zombies);
 
-	
+
 	if (_inputManager->isKeyPressed(SDLK_UP) == false && _inputManager->isKeyPressed(SDLK_DOWN) == false && _inputManager->isKeyPressed(SDLK_LEFT) == false && _inputManager->isKeyPressed(SDLK_RIGHT) == false)
 	{
 		drawWeapon = false;
@@ -58,7 +59,7 @@ void Player::update(const std::vector<std::string>& levelData, std::vector<Human
 		}
 		if (_inputManager->isKeyPressed(SDLK_DOWN)) {
 			_weapon->direccion = Direction::DOWN;
-			drawWeapon = true;			
+			drawWeapon = true;
 			spriteActual = spriteAba;
 		}
 		if (_inputManager->isKeyPressed(SDLK_LEFT)) {
@@ -101,7 +102,7 @@ void Player::update(const std::vector<std::string>& levelData, std::vector<Human
 }
 
 void Player::collideWithZombies(std::vector<Zombie*>& zombies) {
-	for each (Zombie* zombie in zombies)
+	for each (Zombie * zombie in zombies)
 	{
 		if (collideWithAgent(zombie))
 		{

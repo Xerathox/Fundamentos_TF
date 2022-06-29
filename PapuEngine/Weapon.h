@@ -3,16 +3,17 @@
 #include "SpriteBacth.h"
 #include "GLTexture.h"
 #include <string>
+#include "Agent.h"
 
 enum class Direction {
 	UP, DOWN, LEFT, RIGHT
 };
-class Weapon{
+class Weapon {
 
 protected:
 	int default_HEIGHT;
 	int default_WIDTH;
-	
+
 public:
 	int pos_x;
 	int pos_y;

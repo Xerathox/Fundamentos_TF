@@ -18,7 +18,7 @@ public:
 	~Camera2D();
 	glm::vec2 convertScreenToWorl(glm::vec2 screenScoords);
 	void init(int screenWidth, int screenHeight);
-
+	bool isBoxInView(const glm::vec2& position, const glm::vec2& dimension);
 	void update();
 
 	void setPosition(const glm::vec2& newPosition) {

@@ -16,7 +16,7 @@ void Zombie::update(const std::vector<std::string>& levelData,
 	std::vector<Human*>& humans,
 	std::vector<Zombie*>& zombies,
 	glm::vec2 player_position //quitar esto, que ya no lo reciba, hasta el Agent
-	) {
+) {
 	collideWithLevel(levelData);
 	Human* closeHuman = getNearestHuman(humans);
 	if (closeHuman != nullptr) {
