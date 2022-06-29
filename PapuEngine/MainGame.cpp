@@ -12,7 +12,6 @@ void MainGame::run() {
 	init();
 	update();
 }
-
 void MainGame::init() {
 	Papu::init();
 	_window.create("Engine", _witdh, _height, 0);
@@ -20,7 +19,6 @@ void MainGame::init() {
 	initLevel();
 	initShaders();
 }
-
 void MainGame::initLevel() {
 	//NIVELES
 	_levels.push_back(new Level("Levels/level1.txt"));
@@ -35,9 +33,6 @@ void MainGame::initLevel() {
 	_sound.addSoundEffect("Music/BFG Division.wav");
 	_sound.addSoundEffect("Music/Hell_on_Earth.wav");
 	_sound.addSoundEffect("Music/Rip_&_Tear.wav");
-	
-	
-
 
 	_player = new Player();
 	_weapon = new Weapon();
@@ -56,7 +51,7 @@ void MainGame::initLevel() {
 	{
 		_humans.push_back(new Human());
 		glm::vec2 pos(randPosX(randomEngine)*TILE_WIDTH, 
-							randPosY(randomEngine)*TILE_WIDTH);
+			randPosY(randomEngine)*TILE_WIDTH);
 		_humans.back()->init(1.0f, pos);
 	}
 
@@ -73,7 +68,6 @@ void MainGame::initLevel() {
 
 
 }
-
 void MainGame::initShaders() {
 	_program.compileShaders("Shaders/colorShaderVert.txt",
 		"Shaders/colorShaderFrag.txt");
@@ -82,7 +76,6 @@ void MainGame::initShaders() {
 	_program.addAtribute("vertexUV");
 	_program.linkShader();
 }
-
 
 void MainGame::draw() {
 	glClearDepth(1.0);
@@ -136,7 +129,6 @@ void MainGame::draw() {
 	_program.unuse();
 	_window.swapBuffer();
 }
-
 void MainGame::procesInput() {
 	SDL_Event event;
 	const float CAMERA_SPEED = 20.0f;
@@ -185,7 +177,6 @@ void MainGame::procesInput() {
 		}
 	}
 }
-
 void MainGame::update() {
 
 	while (_gameState != GameState::EXIT) {
@@ -200,7 +191,6 @@ void MainGame::update() {
 		//cout << "Zombies: " << _zombies.size() << endl;
 	}
 }
-
 void MainGame::manageMusic()
 {
 	if (_player->drawWeapon)
@@ -213,8 +203,6 @@ void MainGame::manageMusic()
 		}
 	}
 }
-
-
 
 void MainGame::updateAgents() {
 
@@ -249,7 +237,6 @@ void MainGame::updateAgents() {
 		}
 	}
 }
-
 MainGame::MainGame(): 
 					  _witdh(800),
 					  _height(600),
@@ -259,8 +246,6 @@ MainGame::MainGame():
 {
 	_camera.init(_witdh, _height);
 }
-
-
 MainGame::~MainGame()
 {
 }

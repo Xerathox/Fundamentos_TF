@@ -4,7 +4,7 @@
 #include "Weapon.h"
 
 
-class Zombie :public Agent
+class Zombie : public Agent
 {
 public:
 	Zombie();
