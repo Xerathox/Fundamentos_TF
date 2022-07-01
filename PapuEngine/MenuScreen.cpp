@@ -14,8 +14,8 @@ MenuScreen::~MenuScreen()
 
 void MenuScreen::build()
 {
-	background = new Background("Textures/Fondos/Menu.png");
-	button = new Button(0, 0, 100, 50, "Textures/btn_play.png");
+	background = new Background("Textures/Fondos/background.png");
+	button = new Button(-100, -150, 200, 100, "Textures/btn_play.png");
 	//button = new Button("Textures/btn_play.png");
 }
 
@@ -67,16 +67,13 @@ void MenuScreen::draw()
 	background->draw(_spriteBatch);
 	button->draw(_spriteBatch);
 	char buffer[256];
-	sprintf_s(buffer, "MENU DEL JUEGO %d", 100);
+	sprintf_s(buffer, "GOKU VISITANDO LATAM");
 	Color color;
 	color.r = 255;
-	color.g = 0;
-	color.b = 0;
+	color.g = 255;
+	color.b = 255;
 	color.a = 255;
-	spriteFont->draw(_spriteBatch, buffer, glm::vec2(-100, 50), glm::vec2(1), 0.0f, color);
-
-	sprintf_s(buffer, "HOLA 2 %d", 100);
-	spriteFont->draw(_spriteBatch, buffer, glm::vec2(-200, 150), glm::vec2(1), 0.0f, color);
+	spriteFont->draw(_spriteBatch, buffer, glm::vec2(-200, 50), glm::vec2(1), 0.0f, color);
 	_spriteBatch.end();
 	_spriteBatch.renderBatch();
 
