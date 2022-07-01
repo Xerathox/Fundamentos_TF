@@ -26,8 +26,7 @@ void Player::init(float speed, glm::vec2 position, InputManager* inputManager, C
 
 }
 void Player::update(const std::vector<std::string>& levelData, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, glm::vec2 player_position) {
-
-
+	
 	if (stunned && stunnedTime > 0)
 	{
 		stunnedTime -= 1;
@@ -41,64 +40,58 @@ void Player::update(const std::vector<std::string>& levelData, std::vector<Human
 		stunned = false;
 		stunnedTime = 125;
 	}
-
 	collideWithZombies(zombies);
 
-
-	if (_inputManager->isKeyPressed(SDLK_UP) == false && _inputManager->isKeyPressed(SDLK_DOWN) == false && _inputManager->isKeyPressed(SDLK_LEFT) == false && _inputManager->isKeyPressed(SDLK_RIGHT) == false)
+	if (_inputManager->isKeyDown(SDLK_UP) == false && _inputManager->isKeyDown(SDLK_DOWN) == false && _inputManager->isKeyDown(SDLK_LEFT) == false && _inputManager->isKeyDown(SDLK_RIGHT) == false)
 	{
 		drawWeapon = false;
 	}
 	else
 	{
 		//arma
-		if (_inputManager->isKeyPressed(SDLK_UP)) {
+		if (_inputManager->isKeyDown(SDLK_UP)) {
 			_weapon->direccion = Direction::UP;
 			drawWeapon = true;
 			spriteActual = spriteArr;
 		}
-		if (_inputManager->isKeyPressed(SDLK_DOWN)) {
+		if (_inputManager->isKeyDown(SDLK_DOWN)) {
 			_weapon->direccion = Direction::DOWN;
 			drawWeapon = true;
 			spriteActual = spriteAba;
 		}
-		if (_inputManager->isKeyPressed(SDLK_LEFT)) {
+		if (_inputManager->isKeyDown(SDLK_LEFT)) {
 			_weapon->direccion = Direction::LEFT;
 			drawWeapon = true;
 			spriteActual = spriteIzq;
 		}
-		if (_inputManager->isKeyPressed(SDLK_RIGHT)) {
+		if (_inputManager->isKeyDown(SDLK_RIGHT)) {
 			_weapon->direccion = Direction::RIGHT;
 			drawWeapon = true;
 			spriteActual = spriteDer;
 		}
-
 	}
-
 	//movimiento
 	if (!drawWeapon)
 	{
-		if (_inputManager->isKeyPressed(SDLK_w)) {
+		if (_inputManager->isKeyDown(SDLK_w)) {
 			spriteActual = spriteArr;
 			_position.y += _speed;
 		}
-		if (_inputManager->isKeyPressed(SDLK_s)) {
+		if (_inputManager->isKeyDown(SDLK_s)) {
 			spriteActual = spriteAba;
 			_position.y -= _speed;
 		}
-		if (_inputManager->isKeyPressed(SDLK_a)) {
+		if (_inputManager->isKeyDown(SDLK_a)) {
 			spriteActual = spriteIzq;
 			_position.x -= _speed;
 		}
-		if (_inputManager->isKeyPressed(SDLK_d)) {
+		if (_inputManager->isKeyDown(SDLK_d)) {
 			spriteActual = spriteDer;
 			_position.x += _speed;
 		}
 		soundWeapon = false;
 	}
-
 	collideWithLevel(levelData);
-
 }
 
 void Player::collideWithZombies(std::vector<Zombie*>& zombies) {

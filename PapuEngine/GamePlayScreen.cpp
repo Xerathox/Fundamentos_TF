@@ -29,10 +29,11 @@ void GamePlayScreen::build() {
 	_spriteBatch.init();
 
 	std::mt19937 randomEngine(time(nullptr));
-	std::uniform_int_distribution<int>randPosX(
-		1, _levels[_currenLevel]->getWidth() - 2);
-	std::uniform_int_distribution<int>randPosY(
-		1, _levels[_currenLevel]->getHeight() - 2);
+	std::uniform_int_distribution<int>randPosX(1, _levels[_currenLevel]->getWidth() - 2);
+	std::uniform_int_distribution<int>randPosY(1, _levels[_currenLevel]->getHeight() - 2);
+
+	cout << "Pos x" << _levels[_currenLevel]->getWidth() << endl;
+	cout << "Pos y" << _levels[_currenLevel]->getHeight() << endl;
 
 	for (int i = 0; i < _levels[_currenLevel]->getNumHumans(); i++)
 	{
@@ -74,15 +75,14 @@ void GamePlayScreen::draw() {
 	_program.use();
 
 	glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, _texture.id);
+	glBindTexture(GL_TEXTURE_2D, _texture.id);
 
 	/*GLuint timeLocation =
 		_program.getUniformLocation("time");
 
 	glUniform1f(timeLocation,_time);*/
 
-	GLuint pLocation =
-		_program.getUniformLocation("P");
+	GLuint pLocation = _program.getUniformLocation("P");
 
 	glm::mat4 cameraMatrix = _camera.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
@@ -91,8 +91,9 @@ void GamePlayScreen::draw() {
 	glUniform1i(imageLocation, 0);
 
 	_spriteBatch.begin();
+	_player->draw(_spriteBatch, _player->spriteActual);
 	_levels[_currenLevel]->draw();
-	_player->draw(_spriteBatch, _player->spriteActual); 
+
 
 	if (_player->drawWeapon)
 	{

@@ -9,7 +9,7 @@ Level::Level(const std::string& fileName)
 	std::ifstream file;
 	file.open(fileName);
 	if (file.fail()) {
-		fatalError("failed to opem " + fileName);
+		fatalError("failed to open " + fileName);
 	}
 	std::string tmp;
 
