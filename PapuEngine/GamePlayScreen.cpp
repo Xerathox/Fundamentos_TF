@@ -135,6 +135,7 @@ void GamePlayScreen::draw() {
 	}
 	//background->draw(_spriteBatch);
 	
+	//contador de zombies
 	char buffer[256];
 	sprintf_s(buffer, "Zombies: %d", _zombies.size());
 	Color color;
@@ -142,7 +143,7 @@ void GamePlayScreen::draw() {
 	color.g = 0;
 	color.b = 0;
 	color.a = 255;
-	spriteFont->draw(_spriteBatch, buffer, _player->getPosition(), glm::vec2(1), 0.0f, color);
+	spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x-875, _player->getPosition().y + 500), glm::vec2(2), 0.0f, color);
 
 	//VICTORIA
 	if (_currenLevel == 3 && _zombies.size() <= 0) {
@@ -153,7 +154,7 @@ void GamePlayScreen::draw() {
 		color.g = 255;
 		color.b = 0;
 		color.a = 255;
-		spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x,_player->getPosition().y+150), glm::vec2(1), 0.0f, color);
+		spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x - 125, _player->getPosition().y + 250), glm::vec2(2), 0.0f, color);
 	}
 	//DERROTA
 	if (_humans.size() <= 0) {
@@ -164,7 +165,7 @@ void GamePlayScreen::draw() {
 		color.g = 0;
 		color.b = 0;
 		color.a = 255;
-		spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x, _player->getPosition().y + 150), glm::vec2(1), 0.0f, color);
+		spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x - 125, _player->getPosition().y + 250), glm::vec2(2), 0.0f, color);
 	}
 
 	_spriteBatch.end();
