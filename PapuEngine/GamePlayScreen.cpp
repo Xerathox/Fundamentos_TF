@@ -145,6 +145,17 @@ void GamePlayScreen::draw() {
 	color.a = 255;
 	spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x-875, _player->getPosition().y + 500), glm::vec2(2), 0.0f, color);
 
+	//contador de humanos
+	//char buffer[256];
+	sprintf_s(buffer, "Humanos: %d", _humans.size());
+	//Color color;
+	color.r = 0;
+	color.g = 0;
+	color.b = 0;
+	color.a = 255;
+	spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x - 875, _player->getPosition().y + 400), glm::vec2(2), 0.0f, color);
+
+
 	//VICTORIA
 	if (_currenLevel == 3 && _zombies.size() <= 0) {
 		char buffer[256];
