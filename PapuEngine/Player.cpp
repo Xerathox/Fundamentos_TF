@@ -25,7 +25,7 @@ void Player::init(float speed, glm::vec2 position, InputManager* inputManager, C
 	spriteActual = spriteDer;
 
 }
-void Player::update(const std::vector<std::string>& levelData, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, glm::vec2 player_position) {
+void Player::update(const std::vector<std::string>& levelData, std::vector<Human*>& humans, std::vector<Zombie*>& zombies, glm::vec2 player_position, bool _gameplay) {
 	
 	if (stunned && stunnedTime > 0)
 	{
@@ -49,29 +49,31 @@ void Player::update(const std::vector<std::string>& levelData, std::vector<Human
 	else
 	{
 		//arma
-		if (_inputManager->isKeyDown(SDLK_UP)) {
+		if(_gameplay){
+			if (_inputManager->isKeyDown(SDLK_UP)) {
 			_weapon->direccion = Direction::UP;
 			drawWeapon = true;
 			spriteActual = spriteArr;
 		}
-		if (_inputManager->isKeyDown(SDLK_DOWN)) {
+			if (_inputManager->isKeyDown(SDLK_DOWN)) {
 			_weapon->direccion = Direction::DOWN;
 			drawWeapon = true;
 			spriteActual = spriteAba;
 		}
-		if (_inputManager->isKeyDown(SDLK_LEFT)) {
+			if (_inputManager->isKeyDown(SDLK_LEFT)) {
 			_weapon->direccion = Direction::LEFT;
 			drawWeapon = true;
 			spriteActual = spriteIzq;
 		}
-		if (_inputManager->isKeyDown(SDLK_RIGHT)) {
+			if (_inputManager->isKeyDown(SDLK_RIGHT)) {
 			_weapon->direccion = Direction::RIGHT;
 			drawWeapon = true;
 			spriteActual = spriteDer;
 		}
+		}
 	}
 	//movimiento
-	if (!drawWeapon)
+	if (_gameplay && !drawWeapon)
 	{
 		if (_inputManager->isKeyDown(SDLK_w)) {
 			spriteActual = spriteArr;

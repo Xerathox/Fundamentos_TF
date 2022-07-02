@@ -38,7 +38,7 @@ private:
 	int _currenLevel;	
 	Music _music;
 	SpriteFont* spriteFont;
-
+	bool _gameplay;
 
 	void updateAgents();
 

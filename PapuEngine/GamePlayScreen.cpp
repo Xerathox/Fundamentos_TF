@@ -16,6 +16,7 @@ GamePlayScreen::GamePlayScreen(Window* window) :
 {
 	_screenIndex = SCREEN_INDEX_GAMEPLAY;
 	_currenLevel = 0;
+	_gameplay = true;
 }
 
 GamePlayScreen::~GamePlayScreen()
@@ -43,6 +44,7 @@ void GamePlayScreen::build() {
 	cout << "Pos x" << _levels[_currenLevel]->getWidth() << endl;
 	cout << "Pos y" << _levels[_currenLevel]->getHeight() << endl;
 
+	//creacion de humanos
 	for (int i = 0; i < _levels[_currenLevel]->getNumHumans(); i++)
 	{
 		_humans.push_back(new Human());
@@ -51,6 +53,7 @@ void GamePlayScreen::build() {
 		_humans.back()->init(1.0f, pos);
 	}
 
+	//creacion de zombies
 	const std::vector<glm::vec2>& zombiePosition =
 		_levels[_currenLevel]->getZombiesPosition();
 
@@ -166,6 +169,7 @@ void GamePlayScreen::draw() {
 		color.b = 0;
 		color.a = 255;
 		spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x - 125, _player->getPosition().y + 250), glm::vec2(2), 0.0f, color);
+		_gameplay = false;
 	}
 	//DERROTA
 	if (_humans.size() <= 0) {
@@ -177,6 +181,7 @@ void GamePlayScreen::draw() {
 		color.b = 0;
 		color.a = 255;
 		spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x - 125, _player->getPosition().y + 250), glm::vec2(2), 0.0f, color);
+		_gameplay = false;
 	}
 
 	_spriteBatch.end();
@@ -194,6 +199,7 @@ void GamePlayScreen::update() {
 	_inputManager.update();
 	_camera.setPosition(_player->getPosition());
 
+	//logica de niveles
 	if (_zombies.size() <= 0 && _currenLevel+1 < 4) {
 		_currenLevel++;
 		onExit();
@@ -218,15 +224,15 @@ void GamePlayScreen::manageMusic()
 
 void GamePlayScreen::updateAgents() {
 
-	_player->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, glm::vec2());
+	_player->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, glm::vec2(),_gameplay);
 	for (size_t i = 0; i < _humans.size(); i++)
 	{
-		_humans[i]->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, glm::vec2());
+		_humans[i]->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, glm::vec2(),_gameplay);
 	}
 
 	for (size_t i = 0; i < _zombies.size(); i++)
 	{
-		_zombies[i]->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, _player->getPosition());
+		_zombies[i]->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, _player->getPosition(),_gameplay);
 
 		if (_zombies[i]->collideWithWeapon(_weapon->pos_x, _weapon->pos_y, _weapon->height, _weapon->width))
 		{
