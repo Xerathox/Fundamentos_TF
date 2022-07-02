@@ -1,7 +1,5 @@
 #include "SpriteFont.h"
-
 #include "SpriteBacth.h"
-
 #include <SDL/SDL.h>
 
 int closestPow2(int i) {

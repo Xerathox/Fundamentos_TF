@@ -19,6 +19,7 @@ public:
 	~Sprite();
 	void init(float x, float y, int width, int height, string texturePath);
 	void draw();
+	
 
 	
 };

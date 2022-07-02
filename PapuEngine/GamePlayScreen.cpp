@@ -9,10 +9,13 @@
 #include <random>
 #include <ctime>
 
+using namespace std;
+
 GamePlayScreen::GamePlayScreen(Window* window) :
 	_window(window)
 {
 	_screenIndex = SCREEN_INDEX_GAMEPLAY;
+	_currenLevel = 0;
 }
 
 GamePlayScreen::~GamePlayScreen()
@@ -21,9 +24,14 @@ GamePlayScreen::~GamePlayScreen()
 
 void GamePlayScreen::build() {
 	_levels.push_back(new Level("Levels/level1.txt"));
+	_levels.push_back(new Level("Levels/level2.txt"));
+	_levels.push_back(new Level("Levels/level3.txt"));
+	_levels.push_back(new Level("Levels/level4.txt"));
+	//_levels.push_back(new Level("Levels/level1.txt"));
+
 	_player = new Player();
 	_weapon = new Weapon();
-	_currenLevel = 0;
+	//_currenLevel = 0;
 	_player->init(3.5f, _levels[_currenLevel]->getPlayerPosition(), &_inputManager, &_camera, _weapon);	
 	//_humans.push_back(_player);
 	_spriteBatch.init();
@@ -51,20 +59,33 @@ void GamePlayScreen::build() {
 		_zombies.push_back(new Zombie());
 		_zombies.back()->init(1.3f, zombiePosition[i]);
 	}
-	//background = new Background("Textures/Fondos/background.png");
+	
 }
 void GamePlayScreen::destroy() {
 
 }
 void GamePlayScreen::onExit() {
+	for (size_t i = 0; i < _zombies.size(); i++)
+	{
+		delete _zombies[i];
+		_zombies[i] = _zombies.back();
+		_zombies.pop_back();
+	}
+	for (size_t i = 0; i < _humans.size(); i++)
+	{
+		delete _humans[i];
+		_humans[i] = _humans.back();
+		_humans.pop_back();
+	}
 }
+
 void GamePlayScreen::onEntry() {
-	_program.compileShaders("Shaders/colorShaderVert.txt",
-		"Shaders/colorShaderFrag.txt");
+	_program.compileShaders("Shaders/colorShaderVert.txt", "Shaders/colorShaderFrag.txt");
 	_program.addAtribute("vertexPosition");
 	_program.addAtribute("vertexColor");
 	_program.addAtribute("vertexUV");
 	_program.linkShader();
+	spriteFont = new SpriteFont("Fonts/1_Minecraft-Regular.otf", 40);
 
 	_camera.init(_window->getScreenWidth(),
 		_window->getScreenHeight());
@@ -113,7 +134,39 @@ void GamePlayScreen::draw() {
 		_zombies[i]->draw(_spriteBatch, "Textures/zombie.png");
 	}
 	//background->draw(_spriteBatch);
-		
+	
+	char buffer[256];
+	sprintf_s(buffer, "Zombies: %d", _zombies.size());
+	Color color;
+	color.r = 0;
+	color.g = 0;
+	color.b = 0;
+	color.a = 255;
+	spriteFont->draw(_spriteBatch, buffer, _player->getPosition(), glm::vec2(1), 0.0f, color);
+
+	//VICTORIA
+	if (_currenLevel == 3 && _zombies.size() <= 0) {
+		char buffer[256];
+		sprintf_s(buffer, "Ganaste");
+		Color color;
+		color.r = 0;
+		color.g = 255;
+		color.b = 0;
+		color.a = 255;
+		spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x,_player->getPosition().y+150), glm::vec2(1), 0.0f, color);
+	}
+	//DERROTA
+	if (_humans.size() <= 0) {
+		char buffer[256];
+		sprintf_s(buffer, "Perdiste");
+		Color color;
+		color.r = 255;
+		color.g = 0;
+		color.b = 0;
+		color.a = 255;
+		spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x, _player->getPosition().y + 150), glm::vec2(1), 0.0f, color);
+	}
+
 	_spriteBatch.end();
 	_spriteBatch.renderBatch();
 
@@ -128,6 +181,14 @@ void GamePlayScreen::update() {
 	updateAgents();
 	_inputManager.update();
 	_camera.setPosition(_player->getPosition());
+
+	if (_zombies.size() <= 0 && _currenLevel+1 < 4) {
+		_currenLevel++;
+		onExit();
+		build();		
+	}
+	
+	
 }
 
 void GamePlayScreen::manageMusic()

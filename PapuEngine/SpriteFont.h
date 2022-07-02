@@ -31,8 +31,6 @@ Modified By: Benjamin Arnold
 
 #include "Vertex.h"
 
-
-
 struct GLTexture;
 class SpriteBacth;
 

@@ -18,6 +18,7 @@
 #include <vector>
 #include <GL\glew.h>
 #include <SDL\SDL_mixer.h>
+#include "SpriteFont.h"
 
 class GamePlayScreen : public IGameScreen
 {
@@ -36,6 +37,8 @@ private:
 	Weapon* _weapon;
 	int _currenLevel;	
 	Music _music;
+	SpriteFont* spriteFont;
+
 
 	void updateAgents();
 
