@@ -24,6 +24,7 @@ private:
 	Camera2D _camera;
 	void checkInput(); 
 	SpriteFont* spriteFont;
+	
 public:
 	MenuScreen(Window* window);
 	~MenuScreen();
@@ -35,6 +36,6 @@ public:
 	virtual void update()override;
 	virtual int getNextScreen() const override;
 	virtual int getPreviousScreen() const override;
-
+	
 };
 

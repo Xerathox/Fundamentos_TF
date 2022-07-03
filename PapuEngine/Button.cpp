@@ -14,6 +14,20 @@ Button::Button(float pos_x, float pos_y, float width, float height, std::string 
 Button::~Button()
 {
 }
+void Button::draw(SpriteBacth& spriteBatch, glm::vec2 position)
+{
+	pos_x = position.x;
+	pos_y = position.y;
+	Color color;
+	color.r = 255;
+	color.b = 255;
+	color.g = 255;
+	color.a = 255;
+	const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
+	glm::vec4 destRect(pos_x, pos_y, width, height);
+	spriteBatch.draw(destRect, uvRect, _textureID, 0.0f, color);
+} 
+
 
 void Button::draw(SpriteBacth& spriteBatch)
 {

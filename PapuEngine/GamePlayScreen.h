@@ -19,6 +19,7 @@
 #include <GL\glew.h>
 #include <SDL\SDL_mixer.h>
 #include "SpriteFont.h"
+#include "Button.h"
 
 class GamePlayScreen : public IGameScreen
 {
@@ -38,8 +39,11 @@ private:
 	int _currenLevel;	
 	Music _music;
 	SpriteFont* spriteFont;
-	bool _gameplay;
+	Background* _background;
+	Button* _btnReplay;
 
+	bool _gamePlay;
+	bool _gameRetry;
 	void updateAgents();
 
 public:
@@ -52,11 +56,9 @@ public:
 	virtual void onEntry() override;
 	virtual void draw()override;
 	virtual void update()override;
-	void manageMusic();
 	virtual int getNextScreen() const override;
 	virtual int getPreviousScreen() const override;
-
-
 	void checkInput();
+	void manageMusic();
 };
 

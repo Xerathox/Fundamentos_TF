@@ -12,15 +12,18 @@
 using namespace std;
 
 GamePlayScreen::GamePlayScreen(Window* window) :
-	_window(window)
-{
+	_window(window){
+	_btnReplay = new Button(-100000, -100000, 170, 80, "Textures/btn_retry.png");
+	//_background = new Background("Textures/Fondos/background.png");
 	_screenIndex = SCREEN_INDEX_GAMEPLAY;
 	_currenLevel = 0;
-	_gameplay = true;
+	_gamePlay = true;
+	_gameRetry = false;
 }
 
 GamePlayScreen::~GamePlayScreen()
 {
+	_btnReplay = nullptr;
 }
 
 void GamePlayScreen::build() {
@@ -101,6 +104,7 @@ void GamePlayScreen::draw() {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _texture.id);
 
+	
 	/*GLuint timeLocation =
 		_program.getUniformLocation("time");
 
@@ -158,6 +162,14 @@ void GamePlayScreen::draw() {
 	color.a = 255;
 	spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x - 875, _player->getPosition().y + 400), glm::vec2(2), 0.0f, color);
 
+	//contador de nivel
+	sprintf_s(buffer, "Nivel Actual: %d", _currenLevel + 1);
+	color.r = 0;
+	color.g = 0;
+	color.b = 0;
+	color.a = 255;
+	spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x - 875, _player->getPosition().y + 300), glm::vec2(2), 0.0f, color);
+
 
 	//VICTORIA
 	if (_currenLevel == 3 && _zombies.size() <= 0) {
@@ -169,7 +181,11 @@ void GamePlayScreen::draw() {
 		color.b = 0;
 		color.a = 255;
 		spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x - 125, _player->getPosition().y + 250), glm::vec2(2), 0.0f, color);
-		_gameplay = false;
+		_gamePlay = false;
+		if (!_gamePlay && _currenLevel == 3) {
+			_btnReplay->draw(_spriteBatch, glm::vec2(_player->getPosition().x-50, _player->getPosition().y + 100));
+			//spriteFont->draw(_btnReplay->draw(_spriteBatch), glm::vec2(_player->getPosition().x - 125, _player->getPosition().y + 250), glm::vec2(2), 0.0f, color);
+		}
 	}
 	//DERROTA
 	if (_humans.size() <= 0) {
@@ -181,8 +197,15 @@ void GamePlayScreen::draw() {
 		color.b = 0;
 		color.a = 255;
 		spriteFont->draw(_spriteBatch, buffer, glm::vec2(_player->getPosition().x - 125, _player->getPosition().y + 250), glm::vec2(2), 0.0f, color);
-		_gameplay = false;
+		_gamePlay = false;
+
 	}
+	// 
+	if (!_gamePlay) {
+		_btnReplay->draw(_spriteBatch, glm::vec2(_player->getPosition().x-50, _player->getPosition().y + 100));
+		//spriteFont->draw(_btnReplay->draw(_spriteBatch), glm::vec2(_player->getPosition().x - 125, _player->getPosition().y + 250), glm::vec2(2), 0.0f, color);
+	}
+
 
 	_spriteBatch.end();
 	_spriteBatch.renderBatch();
@@ -224,15 +247,15 @@ void GamePlayScreen::manageMusic()
 
 void GamePlayScreen::updateAgents() {
 
-	_player->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, glm::vec2(),_gameplay);
+	_player->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, glm::vec2(),_gamePlay);
 	for (size_t i = 0; i < _humans.size(); i++)
 	{
-		_humans[i]->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, glm::vec2(),_gameplay);
+		_humans[i]->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, glm::vec2(),_gamePlay);
 	}
 
 	for (size_t i = 0; i < _zombies.size(); i++)
 	{
-		_zombies[i]->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, _player->getPosition(),_gameplay);
+		_zombies[i]->update(_levels[_currenLevel]->getLevelData(), _humans, _zombies, _player->getPosition(),_gamePlay);
 
 		if (_zombies[i]->collideWithWeapon(_weapon->pos_x, _weapon->pos_y, _weapon->height, _weapon->width))
 		{
@@ -289,7 +312,17 @@ void GamePlayScreen::checkInput() {
 		if (_inputManager.isKeyDown(SDLK_e)) {
 			_camera.setScale(_camera.getScale() - SCALE_SPEED);
 		}
-
+		if (_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+			//presione click;
+			glm::vec2 mouseCoords = _camera.convertScreenToWorl(_inputManager.getMouseCoords());
+			if (_btnReplay->click(mouseCoords)) {
+				onExit();
+				_currenLevel = 0;
+				build();
+				_gamePlay = true;
+			}
+		}
+		
 	}
 }
 int GamePlayScreen::getNextScreen() const {

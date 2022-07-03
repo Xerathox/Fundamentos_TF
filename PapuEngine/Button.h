@@ -18,6 +18,7 @@ public:
 	//Button(std::string _path);
 	~Button();
 	void draw(SpriteBacth& spriteBatch);
+	void draw(SpriteBacth& spriteBatch, glm::vec2 position);
 	bool click(glm::vec2 position);
 };
 

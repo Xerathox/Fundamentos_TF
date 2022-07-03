@@ -5,6 +5,7 @@
 
 MenuScreen::MenuScreen(Window* window):_window(window)
 {
+	
 	_screenIndex = SCREEN_INDEX_MENU;
 }
 
@@ -20,7 +21,7 @@ void MenuScreen::build()
 }
 
 void MenuScreen::destroy()
-{
+{	
 	button = nullptr;
 	background = nullptr;
 }
@@ -66,6 +67,7 @@ void MenuScreen::draw()
 
 	background->draw(_spriteBatch);
 	button->draw(_spriteBatch);
+	
 	char buffer[256];
 	sprintf_s(buffer, "GOKU VISITANDO LATAM");
 	Color color;
