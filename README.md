@@ -4,9 +4,9 @@ Trabajo Final de Fundamentos de la Teoría de Juegos
 Integrantes:
 ------------
 Joaquín Aguirre Peralta - u201620285
-Franco
-Bruno
-Diego
+Bruno Tiglla Arrascue - u20181A686
+Franco Jair Vigil Bravo - u201614933
+Diego Bedriñana Alberca - u201614284
 
 Para este trabajo final, se creó a un personaje Goku, que debe salvar a los humanos de los zombies. Los zombies no pueden matar a Goku, solo stunnearlo por unos segundos.
 Si Goku llega a matar a todos los zombies, pasará de nivel (con un total de 4 niveles), sin embargo si los zombies matan a todos los humanos, Goku perderá.
