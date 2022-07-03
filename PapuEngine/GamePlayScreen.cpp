@@ -13,6 +13,11 @@ using namespace std;
 
 GamePlayScreen::GamePlayScreen(Window* window) :
 	_window(window){
+	_music.addSoundEffect("Music/Kamehameha.wav");
+	_music.addSoundEffect("Music/Hell_on_Earth.wav");
+	_music.addSoundEffect("Music/BFG Division.wav");	
+	_music.addSoundEffect("Music/Rip_&_Tear.wav");
+	_music.addSoundEffect("Music/TOTTFIY.wav");
 	_btnReplay = new Button(-100000, -100000, 170, 80, "Textures/btn_retry.png");
 	//_background = new Background("Textures/Fondos/background.png");
 	_screenIndex = SCREEN_INDEX_GAMEPLAY;
@@ -31,7 +36,8 @@ void GamePlayScreen::build() {
 	_levels.push_back(new Level("Levels/level2.txt"));
 	_levels.push_back(new Level("Levels/level3.txt"));
 	_levels.push_back(new Level("Levels/level4.txt"));
-	//_levels.push_back(new Level("Levels/level1.txt"));
+
+	_music.SDL2SoundEffect(_currenLevel+1);
 
 	_player = new Player();
 	_weapon = new Weapon();
@@ -228,7 +234,7 @@ void GamePlayScreen::update() {
 		onExit();
 		build();		
 	}
-	
+	manageMusic();
 	
 }
 
